@@ -70,7 +70,9 @@ const ChatContent = () => {
                   content={message.content}
                   messageIndex={index}
                 />
-                {!generating && advancedMode && <NewMessageButton messageIndex={index} />}
+                {!generating && advancedMode && (
+                  <NewMessageButton messageIndex={index} />
+                )}
               </React.Fragment>
             ))}
           </div>
@@ -106,7 +108,6 @@ const ChatContent = () => {
             {useStore.getState().generating || (
               <div className='md:w-[calc(100%-50px)] flex gap-4 flex-wrap justify-center'>
                 <DownloadChat saveRef={saveRef} />
-                <ShareGPT />
                 <CloneChat />
               </div>
             )}
