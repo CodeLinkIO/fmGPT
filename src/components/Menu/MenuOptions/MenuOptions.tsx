@@ -14,6 +14,7 @@ const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || undefined;
 
 const MenuOptions = () => {
   const hideMenuOptions = useStore((state) => state.hideMenuOptions);
+
   return (
     <>
       <CollapseOptions />
@@ -26,7 +27,6 @@ const MenuOptions = () => {
         <AboutMenu />
         <ClearConversation />
         <ImportExportChat />
-        <Api />
         <SettingsMenu />
         <Me />
       </div>
