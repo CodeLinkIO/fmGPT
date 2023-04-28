@@ -35,7 +35,6 @@ const SignInPage = (props: Props) => {
 
   const handleLogin = useGoogleLogin({
     onSuccess: (codeResponse) => {
-      console.log({ codeResponse });
       setGoogleAccessToken(codeResponse.access_token);
       setCloudSync(true);
       setToastStatus('success');
@@ -57,12 +56,10 @@ const SignInPage = (props: Props) => {
         useOneTap
         hosted_domain={import.meta.env.VITE_HOSTED_DOMAIN}
         onSuccess={(credentialResponse) => {
-          console.log({ credentialResponse });
           if (credentialResponse.credential) {
             const userCredential = jwtDecode<DataCredential>(
               credentialResponse.credential
             );
-            console.log({ userCredential });
             handleLogin();
           }
         }}

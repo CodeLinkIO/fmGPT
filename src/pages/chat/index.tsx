@@ -18,7 +18,6 @@ const ChatPage = () => {
   const setApiKey = useStore((state) => state.setApiKey);
   const setCurrentChatIndex = useStore((state) => state.setCurrentChatIndex);
   const key = useStore((state) => state.apiKey);
-  console.log({ key });
 
   useEffect(() => {
     document.documentElement.lang = i18n.language;

@@ -20,7 +20,6 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import useGStore from '@store/cloud-auth-store';
 
 const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || undefined;
-console.log({ googleClientId });
 
 const AppRouter = () => {
   const googleAccessToken = useGStore((state) => state.googleAccessToken);

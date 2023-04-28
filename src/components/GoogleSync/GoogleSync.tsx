@@ -132,7 +132,6 @@ const GooglePopup = ({
   const createSyncFile = async () => {
     if (!googleAccessToken) return;
     try {
-      console.log({ googleAccessToken });
       setSyncStatus('syncing');
       await createDriveFile(stateToFile(), googleAccessToken);
       const _files = await getFiles(googleAccessToken);
