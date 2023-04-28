@@ -27,7 +27,7 @@ export const createDriveFile = async (
     {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        'Authorization': `Bearer ${accessToken}`,
         'Content-Type': `multipart/related; boundary=${boundary}`,
         'Content-Length': requestBody.size.toString(),
       },
@@ -55,7 +55,7 @@ export const getDriveFile = async <S>(
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`,
+        'Authorization': `Bearer ${accessToken}`,
       },
     }
   );
@@ -79,7 +79,7 @@ export const listDriveFiles = async (
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`,
+        'Authorization': `Bearer ${accessToken}`,
       },
     }
   );
@@ -151,7 +151,7 @@ export const deleteDriveFile = async (fileId: string, accessToken: string) => {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`,
+        'Authorization': `Bearer ${accessToken}`,
       },
     }
   );

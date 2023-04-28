@@ -9,6 +9,7 @@ import ImportExportChat from '@components/ImportExportChat';
 import SettingsMenu from '@components/SettingsMenu';
 import CollapseOptions from './CollapseOptions';
 import GoogleSync from '@components/GoogleSync';
+import SignOutIcon from '@icon/SignOutIcon';
 
 const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || undefined;
 
@@ -24,11 +25,9 @@ const MenuOptions = () => {
         } overflow-hidden transition-all`}
       >
         {googleClientId && <GoogleSync clientId={googleClientId} />}
-        <AboutMenu />
         <ClearConversation />
         <ImportExportChat />
         <SettingsMenu />
-        <Me />
       </div>
     </>
   );
