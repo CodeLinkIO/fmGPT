@@ -17,7 +17,6 @@ import {
   defaultModel,
   defaultUserMaxToken,
 } from '@constants/chat';
-import { officialAPIEndpoint } from '@constants/auth';
 import defaultPrompts from '@constants/prompt';
 
 export const migrateV0 = (persistedState: LocalStorageInterfaceV0ToV1) => {
@@ -31,10 +30,6 @@ export const migrateV1 = (persistedState: LocalStorageInterfaceV1ToV2) => {
   if (persistedState.apiFree) {
     persistedState.apiEndpoint = persistedState.apiFreeEndpoint;
   }
-  // else {
-  //   console.log('Set');
-  //   persistedState.apiEndpoint = officialAPIEndpoint;
-  // }
 };
 
 export const migrateV2 = (persistedState: LocalStorageInterfaceV2ToV3) => {
@@ -77,8 +72,6 @@ export const migrateV6 = (persistedState: LocalStorageInterfaceV6ToV7) => {
   ) {
     persistedState.apiEndpoint = 'https://chatgpt-api.shn.hk/v1/';
   }
-  if (!persistedState.apiKey || persistedState.apiKey.length === 0)
-    persistedState.apiKey = '';
 };
 
 export const migrateV7 = (persistedState: LocalStorageInterfaceV7oV8) => {

@@ -1,20 +1,16 @@
 import { ShareGPTSubmitBodyInterface } from '@type/api';
 import { ConfigInterface, MessageInterface } from '@type/chat';
-import { isAzureEndpoint } from '@utils/api';
 
 export const getChatCompletion = async (
   endpoint: string,
   messages: MessageInterface[],
   config: ConfigInterface,
-  apiKey?: string,
   customHeaders?: Record<string, string>
 ) => {
   const headers: HeadersInit = {
     'Content-Type': 'application/json',
     ...customHeaders,
   };
-  if (apiKey) headers.Authorization = `Bearer ${apiKey}`;
-  if (isAzureEndpoint(endpoint) && apiKey) headers['api-key'] = apiKey;
 
   const response = await fetch(endpoint, {
     method: 'POST',
@@ -35,17 +31,12 @@ export const getChatCompletionStream = async (
   endpoint: string,
   messages: MessageInterface[],
   config: ConfigInterface,
-  apiKey?: string,
   customHeaders?: Record<string, string>
 ) => {
   const headers: HeadersInit = {
     'Content-Type': 'application/json',
     ...customHeaders,
   };
-  if (apiKey) headers.Authorization = `Bearer ${apiKey}`;
-  if (isAzureEndpoint(endpoint) && apiKey) headers['api-key'] = apiKey;
-
-  console.log({ endpoint });
 
   const response = await fetch(endpoint, {
     method: 'POST',

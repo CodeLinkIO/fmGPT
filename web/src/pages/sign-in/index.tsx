@@ -1,27 +1,16 @@
-import { useGoogleLogin, GoogleLogin } from '@react-oauth/google';
+import {
+  useGoogleLogin,
+  GoogleLogin,
+  CredentialResponse,
+} from '@react-oauth/google';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import useGStore from '@store/cloud-auth-store';
 import useStore from '@store/store';
 import jwtDecode from 'jwt-decode';
+import { UserCredentialData } from '@type/google-api';
 
 type Props = {};
-
-type DataCredential = {
-  aud: string;
-  azp: string;
-  email: string;
-  email_verified: boolean;
-  exp: number;
-  family_name: string;
-  given_name: string;
-  iss: string;
-  jti: string;
-  name: string;
-  nbf: number;
-  picture: string;
-  sub: string;
-};
 
 const SignInPage = (props: Props) => {
   const { t } = useTranslation();
@@ -50,22 +39,28 @@ const SignInPage = (props: Props) => {
     scope: 'https://www.googleapis.com/auth/drive.file',
   });
 
+  const handleSuccess = (credentialResponse: CredentialResponse) => {
+    if (!credentialResponse.credential) {
+      return;
+    }
+    // TODO: How to store user credential for the next login?
+    const userCredential = jwtDecode<UserCredentialData>(
+      credentialResponse.credential
+    );
+    handleLogin();
+  };
+
+  const handleError = () => {
+    console.log('Login failed');
+  };
+
   return (
     <div className='overflow-hidden w-full h-full relative flex justify-center items-center'>
       <GoogleLogin
         useOneTap
         hosted_domain={import.meta.env.VITE_HOSTED_DOMAIN}
-        onSuccess={(credentialResponse) => {
-          if (credentialResponse.credential) {
-            const userCredential = jwtDecode<DataCredential>(
-              credentialResponse.credential
-            );
-            handleLogin();
-          }
-        }}
-        onError={() => {
-          console.log('Login failed');
-        }}
+        onSuccess={handleSuccess}
+        onError={handleError}
       />
     </div>
   );
