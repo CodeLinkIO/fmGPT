@@ -56,6 +56,7 @@ export const createPartializedState = (state: StoreState) => ({
   folders: state.folders,
   enterToSubmit: state.enterToSubmit,
   inlineLatex: state.inlineLatex,
+  apiFree: state.apiFree,
 });
 
 const useStore = create<StoreState>()(
@@ -73,6 +74,7 @@ const useStore = create<StoreState>()(
       partialize: (state) => createPartializedState(state),
       version: 8,
       migrate: (persistedState, version) => {
+        console.log({ version });
         switch (version) {
           case 0:
             migrateV0(persistedState as LocalStorageInterfaceV0ToV1);

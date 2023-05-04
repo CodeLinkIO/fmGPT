@@ -37,6 +37,7 @@ const useSubmit = () => {
       );
     } else if (apiKey) {
       // own apikey
+
       data = await getChatCompletion(
         useStore.getState().apiEndpoint,
         message,
@@ -72,7 +73,6 @@ const useSubmit = () => {
         chats[currentChatIndex].config.model
       );
       if (messages.length === 0) throw new Error('Message exceed max token!');
-
       // no api key (free)
       if (!apiKey || apiKey.length === 0) {
         // official endpoint

@@ -1,6 +1,6 @@
 import { ConfigInterface, MessageInterface } from '@type/chat';
 
-export const endpoint = 'https://api.openai.com/v1/chat/completions';
+export const endpoint = 'https://api.openai.com/v1/chat/completions/as';
 
 export const validateApiKey = async (apiKey: string) => {
   try {
@@ -8,7 +8,7 @@ export const validateApiKey = async (apiKey: string) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey}`,
+        'Authorization': `Bearer ${apiKey}`,
       },
     });
     const data = await response.json();
@@ -30,7 +30,7 @@ export const getChatCompletion = async (
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${apiKey}`,
+      'Authorization': `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
       messages,
@@ -52,7 +52,7 @@ export const getChatCompletionStream = async (
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${apiKey}`,
+      'Authorization': `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
       messages,

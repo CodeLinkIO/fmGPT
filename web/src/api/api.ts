@@ -45,6 +45,8 @@ export const getChatCompletionStream = async (
   if (apiKey) headers.Authorization = `Bearer ${apiKey}`;
   if (isAzureEndpoint(endpoint) && apiKey) headers['api-key'] = apiKey;
 
+  console.log({ endpoint });
+
   const response = await fetch(endpoint, {
     method: 'POST',
     headers,

@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "support-assistant-dev"
+  },
+  "targets": {
+    "support-assistant-dev": {
+      "hosting": {
+        "fmgpt-site": [
+          "fmgpt"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

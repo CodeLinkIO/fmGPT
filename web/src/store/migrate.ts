@@ -30,9 +30,11 @@ export const migrateV0 = (persistedState: LocalStorageInterfaceV0ToV1) => {
 export const migrateV1 = (persistedState: LocalStorageInterfaceV1ToV2) => {
   if (persistedState.apiFree) {
     persistedState.apiEndpoint = persistedState.apiFreeEndpoint;
-  } else {
-    persistedState.apiEndpoint = officialAPIEndpoint;
   }
+  // else {
+  //   console.log('Set');
+  //   persistedState.apiEndpoint = officialAPIEndpoint;
+  // }
 };
 
 export const migrateV2 = (persistedState: LocalStorageInterfaceV2ToV3) => {
