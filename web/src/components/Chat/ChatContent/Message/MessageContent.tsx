@@ -409,7 +409,6 @@ const EditView = ({
       setIsEdit(false);
     }
     setChats(updatedChats);
-    console.log('abc');
     handleSubmit();
   };
 

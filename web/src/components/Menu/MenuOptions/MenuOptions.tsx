@@ -5,7 +5,7 @@ import CollapseOptions from './CollapseOptions';
 import ImportExportChat from '@components/ImportExportChat';
 import SettingsMenu from '@components/SettingsMenu';
 import useFirebaseStore from '@store/firebase-store';
-import FirestoreSync from '@components/FireStoreSync/FirestoreSync';
+import FirestoreSync from '@components/FirestoreSync';
 
 const MenuOptions = () => {
   const hideMenuOptions = useStore((state) => state.hideMenuOptions);

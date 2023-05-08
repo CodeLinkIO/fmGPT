@@ -8,13 +8,11 @@ import useInitialiseNewChat from '@hooks/useInitialiseNewChat';
 import Toast from '@components/Toast';
 import useFirebaseStore from '@store/firebase-store';
 import createFirestoreStorage from '@store/storage/firestore-storage';
-import useSaveToLocalStorage from '@hooks/useSaveToLocalStorage';
 import { ChatInterface } from '@type/chat';
 import { Theme } from '@type/theme';
 import { isUserExisting } from '@api/firestore-api';
 
 const ChatPage = () => {
-  useSaveToLocalStorage();
   const initialiseNewChat = useInitialiseNewChat();
   const setChats = useStore((state) => state.setChats);
   const setTheme = useStore((state) => state.setTheme);
