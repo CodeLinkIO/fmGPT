@@ -1,8 +1,8 @@
+import { defaultAPIEndpoint } from '@constants/auth';
 import { ShareGPTSubmitBodyInterface } from '@type/api';
 import { ConfigInterface, MessageInterface } from '@type/chat';
 
 export const getChatCompletion = async (
-  endpoint: string,
   messages: MessageInterface[],
   config: ConfigInterface,
   customHeaders?: Record<string, string>
@@ -12,7 +12,7 @@ export const getChatCompletion = async (
     ...customHeaders,
   };
 
-  const response = await fetch(endpoint, {
+  const response = await fetch(defaultAPIEndpoint, {
     method: 'POST',
     headers,
     body: JSON.stringify({
@@ -28,7 +28,6 @@ export const getChatCompletion = async (
 };
 
 export const getChatCompletionStream = async (
-  endpoint: string,
   messages: MessageInterface[],
   config: ConfigInterface,
   customHeaders?: Record<string, string>
@@ -38,7 +37,7 @@ export const getChatCompletionStream = async (
     ...customHeaders,
   };
 
-  const response = await fetch(endpoint, {
+  const response = await fetch(defaultAPIEndpoint, {
     method: 'POST',
     headers,
     body: JSON.stringify({

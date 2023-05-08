@@ -18,11 +18,7 @@ const useSubmit = () => {
   const generateTitle = async (
     message: MessageInterface[]
   ): Promise<string> => {
-    const data = await getChatCompletion(
-      useStore.getState().apiEndpoint,
-      message,
-      _defaultChatConfig
-    );
+    const data = await getChatCompletion(message, _defaultChatConfig);
 
     return data.choices[0].message.content;
   };
@@ -52,7 +48,6 @@ const useSubmit = () => {
       );
       if (messages.length === 0) throw new Error('Message exceed max token!');
       const stream = await getChatCompletionStream(
-        useStore.getState().apiEndpoint,
         messages,
         chats[currentChatIndex].config
       );

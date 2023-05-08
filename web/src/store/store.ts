@@ -26,8 +26,10 @@ import {
   migrateV6,
   migrateV7,
 } from './migrate';
+import { createDebugSlice, DebugSlice } from './debug-slice';
 
-export type StoreState = ChatSlice &
+export type StoreState = DebugSlice &
+  ChatSlice &
   InputSlice &
   AuthSlice &
   ConfigSlice &
@@ -42,7 +44,6 @@ export type StoreSlice<T> = (
 export const createPartializedState = (state: StoreState) => ({
   chats: state.chats,
   currentChatIndex: state.currentChatIndex,
-  apiEndpoint: state.apiEndpoint,
   theme: state.theme,
   autoTitle: state.autoTitle,
   advancedMode: state.advancedMode,
@@ -55,7 +56,6 @@ export const createPartializedState = (state: StoreState) => ({
   folders: state.folders,
   enterToSubmit: state.enterToSubmit,
   inlineLatex: state.inlineLatex,
-  apiFree: state.apiFree,
 });
 
 const useStore = create<StoreState>()(
@@ -67,6 +67,7 @@ const useStore = create<StoreState>()(
       ...createConfigSlice(set, get),
       ...createPromptSlice(set, get),
       ...createToastSlice(set, get),
+      ...createDebugSlice(set, get),
     }),
     {
       name: 'free-chat-gpt',

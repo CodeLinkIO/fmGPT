@@ -4,7 +4,6 @@ import { ConfigInterface } from '@type/chat';
 import { _defaultChatConfig, _defaultSystemMessage } from '@constants/chat';
 
 export interface ConfigSlice {
-  apiFree: boolean;
   openConfig: boolean;
   theme: Theme;
   autoTitle: boolean;
@@ -28,7 +27,6 @@ export interface ConfigSlice {
 }
 
 export const createConfigSlice: StoreSlice<ConfigSlice> = (set, get) => ({
-  apiFree: false,
   openConfig: false,
   theme: 'dark',
   hideMenuOptions: false,

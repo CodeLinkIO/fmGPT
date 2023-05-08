@@ -27,6 +27,8 @@ release/
 
 .env
 .env.dev
+.env.development
+.env.production
 
 # firebase
 .firebase

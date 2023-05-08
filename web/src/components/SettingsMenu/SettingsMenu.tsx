@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import useStore from '@store/store';
-import useCloudAuthStore from '@store/cloud-auth-store';
 
 import PopupModal from '@components/PopupModal';
 import SettingIcon from '@icon/SettingIcon';
@@ -14,12 +13,29 @@ import InlineLatexToggle from './InlineLatexToggle';
 import PromptLibraryMenu from '@components/PromptLibraryMenu';
 import ChatConfigMenu from '@components/ChatConfigMenu';
 import EnterToSubmitToggle from './EnterToSubmitToggle';
+import { signOut } from '@utils/firebase';
+import useFirebaseStore from '@store/firebase-store';
+import { createJSONStorage } from 'zustand/middleware';
 
 const SettingsMenu = () => {
   const { t } = useTranslation();
+  const setSync = useFirebaseStore((state) => state.setSync);
+  const setUser = useFirebaseStore((state) => state.setUser);
+  const setSyncStatus = useFirebaseStore((state) => state.setSyncStatus);
 
   const theme = useStore.getState().theme;
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  const handleClickSignOut = () => {
+    setSync(false);
+    setUser(null);
+    setSyncStatus('unauthenticated');
+    signOut();
+    useStore.persist.setOptions({
+      storage: createJSONStorage(() => localStorage),
+    });
+    useStore.persist.rehydrate();
+  };
 
   useEffect(() => {
     document.documentElement.className = theme;
@@ -51,6 +67,9 @@ const SettingsMenu = () => {
             </div>
             <PromptLibraryMenu />
             <ChatConfigMenu />
+            <button className='btn btn-neutral' onClick={handleClickSignOut}>
+              Sign out
+            </button>
           </div>
         </PopupModal>
       )}

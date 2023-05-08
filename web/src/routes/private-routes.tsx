@@ -1,6 +1,6 @@
-import ChatPage from '@src/pages/chat';
-import React from 'react';
 import { Navigate, Route, Routes } from 'react-router';
+
+import ChatPage from '@src/pages/chat';
 
 const PrivateRoutes = () => {
   return (
