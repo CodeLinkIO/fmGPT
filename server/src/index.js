@@ -1,8 +1,14 @@
 import * as dotenv from 'dotenv';
-dotenv.config();
+dotenv.config({
+  debug: true,
+});
 
 import express from 'express';
 import fetch from 'node-fetch';
+import cors from 'cors';
+
+import { collection, addDoc, setDoc, doc, getDoc, updateDoc } from 'firebase/firestore';
+import { db } from './firebase.js';
 
 const port = parseInt(process.env.PORT || '8080', 10);
 const api_key = process.env.OPENAI_API_KEY;
@@ -20,6 +26,7 @@ const app = express();
 app.disable('etag');
 app.disable('x-powered-by');
 app.use(express.json());
+app.use(cors());
 
 app.use((err, req, res, next) => {
   if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
@@ -87,14 +94,58 @@ const handlePost = async (req, res) => {
   }
 };
 
+const handleFetchUserChats = async (req, res) => {
+  const { uid } = req.params;
+
+  try {
+    const docSnap = await getDoc(doc(db, 'users', uid));
+    if (!docSnap.exists()) {
+      return res.status(400).send('User not found');
+    }
+    const { data } = docSnap.data();
+
+    res.status(200).json({ data });
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
+const handleCreateUserChats = async (req, res) => {
+  const { uid, data } = req.body;
+
+  try {
+    await setDoc(doc(db, 'users', uid), { data });
+    res.status(200).send('User chats created');
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
+const handleUpdateUserChats = async (req, res) => {
+  const { uid } = req.params;
+  const { data } = req.body;
+
+  try {
+    await updateDoc(doc(db, 'users', uid), { data });
+    res.status(200).send('User chats updated');
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
 app.get('/', (req, res) => {
   res.status(200).send('Server is running');
 });
 
-app.options('/v1/', handleOptions);
-app.post('/v1/', handlePost);
-app.options('/v1/chat/completions', handleOptions);
-app.post('/v1/chat/completions', handlePost);
+app.options('/chat/completions', handleOptions);
+app.post('/chat/completions', handlePost);
+
+app.options('/users', handleOptions);
+app.post('/users', handleCreateUserChats);
+
+app.options('/users/:uid', handleOptions);
+app.get('/users/:uid', handleFetchUserChats);
+app.put('/users/:uid', handleUpdateUserChats);
 
 app.use('*', (req, res) => {
   res.status(404).set(corsHeaders).type('text/plain').send('Not found');
