@@ -36,12 +36,22 @@ export const fetchUserChats = async <S>(uid: string) => {
   });
 
   if (!response.ok) {
-    throw new Error(`Cannot fetch user with uid ${uid}`);
+    throw new Error(`Cannot fetch user chats by user uid ${uid}`);
   }
 
   const result: { data: string } = await response.json();
   const data: StorageValue<S> = JSON.parse(JSON.stringify(result.data));
   return data;
+};
+
+export const deleteUserChats = async (uid: string) => {
+  const response = await fetch(`${BASE_URL}/users/${uid}`, {
+    method: 'DELETE',
+  });
+
+  if (!response.ok) {
+    throw new Error(`Cannot delete user chats by user uid ${uid}`);
+  }
 };
 
 export const updateUserChats = async <S>(
@@ -58,7 +68,7 @@ export const updateUserChats = async <S>(
   });
 
   if (!response.ok) {
-    throw new Error('Cannot update user chats');
+    throw new Error(`Cannot update user chats by user uid ${uid}`);
   }
 };
 

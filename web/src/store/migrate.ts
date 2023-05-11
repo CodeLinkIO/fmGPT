@@ -99,3 +99,17 @@ export const migrateV7 = (persistedState: LocalStorageInterfaceV7oV8) => {
     chat.id = uuidv4();
   });
 };
+
+export const migrateV8 = (persistedState: LocalStorageInterfaceV7oV8) => {
+  persistedState.chats.forEach((chat) => {
+    chat.config = {
+      ...chat.config,
+      ..._defaultChatConfig,
+    };
+  });
+
+  persistedState.defaultChatConfig = {
+    ...persistedState.defaultChatConfig,
+    ..._defaultChatConfig,
+  };
+};

@@ -1,5 +1,10 @@
 import { FirebaseOptions, initializeApp } from 'firebase/app';
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut as signOutWithFirebase } from 'firebase/auth';
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signOut as signOutWithFirebase,
+} from 'firebase/auth';
 
 const firebaseOptions: FirebaseOptions = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -22,7 +27,7 @@ googleProvider.setCustomParameters({
 const signInWithGoogleProvider = async () =>
   await signInWithPopup(auth, googleProvider);
 
-const signOut = async () => await signOutWithFirebase(auth)
+const signOut = async () => await signOutWithFirebase(auth);
 
 export { auth };
 

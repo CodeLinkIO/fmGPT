@@ -26,7 +26,7 @@ export const modelOptions: ModelOptions[] = [
   // 'gpt-4-32k-0314',
 ];
 
-export const defaultModel = 'gpt-3.5-turbo';
+export const defaultModel = 'gpt-4';
 
 export const modelMaxToken = {
   'gpt-3.5-turbo': 4096,
@@ -46,18 +46,21 @@ export const modelCost = {
   'gpt-4-32k-0314': { price: 0.06, unit: 1000 },
 };
 
-export const defaultUserMaxToken = 4000;
+export const defaultUserMaxToken = 8000;
 
 export const _defaultChatConfig: ConfigInterface = {
   model: defaultModel,
   max_tokens: defaultUserMaxToken,
-  temperature: 1,
+  temperature: 0.7,
   presence_penalty: 0,
-  top_p: 1,
+  top_p: 0.8,
   frequency_penalty: 0,
 };
 
-export const generateDefaultChat = (title?: string, folder?: string): ChatInterface => ({
+export const generateDefaultChat = (
+  title?: string,
+  folder?: string
+): ChatInterface => ({
   id: uuidv4(),
   title: title ? title : 'New Chat',
   messages:
@@ -66,7 +69,7 @@ export const generateDefaultChat = (title?: string, folder?: string): ChatInterf
       : [],
   config: { ...useStore.getState().defaultChatConfig },
   titleSet: false,
-  folder
+  folder,
 });
 
 export const codeLanguageSubset = [

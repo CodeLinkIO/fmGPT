@@ -9,6 +9,13 @@
           "fmgpt"
         ]
       }
+    },
+    "support-assistant-prod": {
+      "hosting": {
+        "fmgpt-prod-target": [
+          "fmgpt-prod"
+        ]
+      }
     }
   },
   "etags": {}

@@ -1,6 +1,7 @@
 import { PersistStorage, StorageValue } from 'zustand/middleware';
 
 import {
+  deleteUserChats,
   fetchUserChats,
   updateUserChatsDebounce,
 } from '@api/firestore-api';
@@ -39,7 +40,12 @@ const createFirestoreStorage = <S>(): PersistStorage<S> | undefined => {
         await updateUserChatsDebounce(user.uid, value);
       }
     },
-    removeItem: async () => {},
+    removeItem: async () => {
+      const user = useFirebaseStore.getState().user;
+      if (user) {
+        await deleteUserChats(user.uid);
+      }
+    },
   };
 
   return persistStorage;

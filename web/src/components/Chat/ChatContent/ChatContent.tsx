@@ -78,10 +78,10 @@ const ChatContent = () => {
           </div>
 
           <Message
+            sticky
             role={inputRole}
             content=''
             messageIndex={stickyIndex}
-            sticky
           />
           {error !== '' && (
             <div className='relative py-2 px-3 w-3/5 mt-3 max-md:w-11/12 border rounded-md border-red-500 bg-red-500/10'>

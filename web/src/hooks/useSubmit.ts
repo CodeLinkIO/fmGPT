@@ -100,7 +100,6 @@ const useSubmit = () => {
       // generate title for new chats
       const currChats = useStore.getState().chats;
       if (
-        useStore.getState().autoTitle &&
         currChats &&
         !currChats[currentChatIndex]?.titleSet
       ) {
