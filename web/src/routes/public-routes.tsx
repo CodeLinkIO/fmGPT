@@ -6,7 +6,6 @@ const PublicRoutes = () => {
   return (
     <Routes>
       <Route path='/sign-in' element={<SignInPage />} />
-      <Route path='*' element={<Navigate replace to='/sign-in' />} />
     </Routes>
   );
 };

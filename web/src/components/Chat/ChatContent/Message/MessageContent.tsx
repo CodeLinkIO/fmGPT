@@ -199,7 +199,7 @@ const ContentView = React.memo(
   }
 );
 
-const code = React.memo((props: CodeProps) => {
+export const code = React.memo((props: CodeProps) => {
   const { inline, className, children } = props;
   const match = /language-(\w+)/.exec(className || '');
   const lang = match && match[1];
@@ -211,7 +211,7 @@ const code = React.memo((props: CodeProps) => {
   }
 });
 
-const p = React.memo(
+export const p = React.memo(
   (
     props?: Omit<
       DetailedHTMLProps<
