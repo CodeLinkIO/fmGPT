@@ -6,8 +6,8 @@ dotenv.config({
 import express from 'express';
 import fetch from 'node-fetch';
 import cors from 'cors';
+import { setDoc, doc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore';
 
-import { collection, addDoc, setDoc, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from './firebase.js';
 
 const port = parseInt(process.env.PORT || '8080', 10);
@@ -133,6 +133,17 @@ const handleUpdateUserChats = async (req, res) => {
   }
 };
 
+const handleDeleteUserChats = async (req, res) => {
+  const { uid } = req.params;
+
+  try {
+    await deleteDoc(doc(db, 'users', uid));
+    res.status(200).send('User chats deleted');
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
 app.get('/', (req, res) => {
   res.status(200).send('Server is running');
 });
@@ -146,6 +157,7 @@ app.post('/users', handleCreateUserChats);
 app.options('/users/:uid', handleOptions);
 app.get('/users/:uid', handleFetchUserChats);
 app.put('/users/:uid', handleUpdateUserChats);
+app.delete('/users/:uid', handleDeleteUserChats);
 
 app.use('*', (req, res) => {
   res.status(404).set(corsHeaders).type('text/plain').send('Not found');
