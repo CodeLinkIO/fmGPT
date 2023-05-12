@@ -5,7 +5,6 @@ import i18n from '../../i18n';
 import Chat from '@components/Chat';
 import Menu from '@components/Menu';
 import useInitialiseNewChat from '@hooks/useInitialiseNewChat';
-import Toast from '@components/Toast';
 import useFirebaseStore from '@store/firebase-store';
 import createFirestoreStorage from '@store/storage/firestore-storage';
 import { ChatInterface } from '@type/chat';
@@ -93,7 +92,6 @@ const ChatPage = () => {
     <div className='overflow-hidden w-full h-full relative'>
       <Menu />
       <Chat />
-      <Toast />
     </div>
   );
 };

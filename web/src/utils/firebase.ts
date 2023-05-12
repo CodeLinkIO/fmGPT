@@ -1,3 +1,4 @@
+import { AuthenticationProvider } from '@type/auth';
 import { FirebaseOptions, initializeApp } from 'firebase/app';
 import {
   getAuth,
@@ -24,8 +25,30 @@ googleProvider.setCustomParameters({
   hd: import.meta.env.VITE_HOSTED_DOMAIN,
 });
 
-const signInWithGoogleProvider = async () =>
-  await signInWithPopup(auth, googleProvider);
+const CodeLinkGoogleProvider = new GoogleAuthProvider();
+CodeLinkGoogleProvider.setCustomParameters({
+  hd: AuthenticationProvider.CodeLink,
+});
+
+const FMGGoogleProvider = new GoogleAuthProvider();
+FMGGoogleProvider.setCustomParameters({
+  hd: AuthenticationProvider.FMG,
+});
+
+const AgencyRevolutionGoogleProvider = new GoogleAuthProvider();
+AgencyRevolutionGoogleProvider.setCustomParameters({
+  hd: AuthenticationProvider.AgencyRevolution,
+});
+
+const GOOGLE_PROVIDERS = {
+  [AuthenticationProvider.CodeLink]: CodeLinkGoogleProvider,
+  [AuthenticationProvider.FMG]: FMGGoogleProvider,
+  [AuthenticationProvider.AgencyRevolution]: AgencyRevolutionGoogleProvider,
+};
+
+const signInWithGoogleProvider = async (
+  authenticationProvider: AuthenticationProvider
+) => await signInWithPopup(auth, GOOGLE_PROVIDERS[authenticationProvider]);
 
 const signOut = async () => await signOutWithFirebase(auth);
 

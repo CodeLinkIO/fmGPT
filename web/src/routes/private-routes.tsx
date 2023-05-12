@@ -1,14 +1,15 @@
-import { Navigate, Route, Routes } from 'react-router';
+import { Navigate, Outlet } from 'react-router-dom';
 
-import ChatPage from '@src/pages/chat';
+import useFirebaseStore from '@store/firebase-store';
 
 const PrivateRoutes = () => {
-  return (
-    <Routes>
-      <Route path='/' element={<ChatPage />} />
-      <Route path='*' element={<Navigate replace to='/' />} />
-    </Routes>
-  );
+  const user = useFirebaseStore((state) => state.user);
+
+  if (!user) {
+    return <Navigate to='/sign-in' replace />;
+  }
+
+  return <Outlet />;
 };
 
 export default PrivateRoutes;

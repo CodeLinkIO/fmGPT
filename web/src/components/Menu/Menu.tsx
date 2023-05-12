@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 import useStore from '@store/store';
 
@@ -32,7 +32,7 @@ const Menu = () => {
     <>
       <div
         id='menu'
-        className={`group/menu dark bg-gray-900 fixed md:inset-y-0 md:flex md:w-[260px] md:flex-col transition-transform z-[999] top-0 left-0 h-full max-md:w-3/4 ${
+        className={`group/menu dark mt-[60px] bg-gray-900 fixed md:inset-y-0 md:flex md:w-[260px] md:flex-col transition-transform z-[999] top-[60px] left-0 h-[calc(100%-60px)] max-md:w-3/4 ${
           hideSideMenu ? 'translate-x-[-100%]' : 'translate-x-[0%]'
         }`}
       >

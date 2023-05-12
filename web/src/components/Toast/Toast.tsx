@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import useStore from '@store/store';
 
 export type ToastStatus = 'success' | 'error' | 'warning';
@@ -25,14 +25,14 @@ const Toast = () => {
 
   return toastShow ? (
     <div
-      className={`flex fixed right-5 bottom-5 z-[1000] items-center w-3/4 md:w-full max-w-xs p-4 mb-4 text-gray-500 dark:text-gray-400 rounded-lg shadow-md border border-gray-400/30 animate-bounce`}
+      className={`flex fixed right-5 bottom-5 z-[1000] bg-white dark:bg-gray-800 items-center w-3/4 md:w-full max-w-xs p-4 mb-4 text-gray-500 dark:text-gray-400 rounded-lg shadow-md border border-gray-400/30 animate-bounce`}
       role='alert'
     >
       <StatusIcon status={status} />
       <div className='ml-3 text-sm font-normal'>{message}</div>
       <button
         type='button'
-        className='ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700'
+        className='ml-auto -mx-1.5 -my-1.5 text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:hover:bg-gray-700'
         aria-label='Close'
         onClick={() => {
           setToastShow(false);
