@@ -28,6 +28,7 @@ const useFirebaseStore = create<FirebaseStoreState>()(
       version: 1,
       partialize: (state) => ({
         sync: state.sync,
+        user: state.user,
       }),
     }
   )

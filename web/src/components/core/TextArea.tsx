@@ -15,14 +15,20 @@ const TextArea = ({
   ...restProps
 }: TextAreaProps) => {
   return (
-    <div className='h-full w-full flex flex-col'>
-      {label && <label htmlFor={label}>{label}</label>}
+    <div
+      className={`flex-1 flex flex-col bg-white dark:text-white dark:bg-transparent rounded ${className}`}
+    >
+      {label && (
+        <label htmlFor={label} className='text-xl'>
+          {label}
+        </label>
+      )}
       <textarea
         {...restProps}
         id={label}
         ref={inputRef}
         rows={rows}
-        className='h-full w-full p-1 rounded my-1 border-gray-500 border-[1px]'
+        className='mt-2 flex-1 px-2 py-2 rounded border border-black/10 bg-transparent resize-none focus:ring-0 focus-visible:ring-0 leading-7 placeholder:text-gray-500/40 dark:bg-gray-700 dark:prose-invert'
       />
     </div>
   );

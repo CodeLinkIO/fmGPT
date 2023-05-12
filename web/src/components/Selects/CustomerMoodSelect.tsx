@@ -1,16 +1,19 @@
 import Select, { SelectOption } from '@components/core/Select';
 import { CUSTOMER_PROMPT_MOODS } from '@constants/prompt';
 import { CustomerMood } from '@type/prompt';
-import React, { useState } from 'react';
 
 interface CustomerMoodSelectProps {
   value: CustomerMood;
   onChange: (mood: CustomerMood) => void;
 }
 
-const systemMoodOptions = Object.entries(CUSTOMER_PROMPT_MOODS).map(
-  ([name, value]) => ({ ...value, label: name })
-);
+const systemMoodOptions: SelectOption[] = Object.entries(
+  CUSTOMER_PROMPT_MOODS
+).map(([name, value]) => ({
+  label: name,
+  icon: value.emoji,
+  value: value.value,
+}));
 
 const CustomerMoodSelect = ({ value, onChange }: CustomerMoodSelectProps) => {
   const handleChangeCustomerMood = (option: SelectOption) => {
@@ -20,10 +23,10 @@ const CustomerMoodSelect = ({ value, onChange }: CustomerMoodSelectProps) => {
 
   const renderOption = (option: SelectOption) => {
     return (
-      <div className='flex'>
-        {option.emoji && <p>{option.emoji}</p>}
-        <p className='ml-2'>{option.label}</p>
-      </div>
+      <>
+        {option.icon && <span>{option.icon}</span>}
+        <span className='ml-4'>{option.label}</span>
+      </>
     );
   };
 

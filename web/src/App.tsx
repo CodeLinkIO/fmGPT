@@ -1,26 +1,47 @@
-import { BrowserRouter } from 'react-router-dom';
+import {
+  RouterProvider,
+  Route,
+  Navigate,
+  createBrowserRouter,
+  createRoutesFromElements,
+  Outlet,
+} from 'react-router-dom';
 
 import PrivateRoutes from './routes/private-routes';
-import PublicRoutes from './routes/public-routes';
 import { useFirebaseAuth } from '@hooks/useFirebaseAuth';
-import useFirebaseStore from '@store/firebase-store';
 import Layout from '@components/Layout';
+import Toast from '@components/Toast';
+import ChatPage from './pages/chat';
+import EmailContentPage from './pages/email-content';
+import SignInPage from './pages/sign-in';
 
-const AppRouter = () => {
-  useFirebaseAuth();
-  const user = useFirebaseStore((state) => state.user);
-
+const Root = () => {
   return (
-    <BrowserRouter>{user ? <PrivateRoutes /> : <PublicRoutes />}</BrowserRouter>
+    <Layout>
+      <Outlet />
+      <Toast />
+    </Layout>
   );
 };
 
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route element={<Root />}>
+      <Route element={<PrivateRoutes />}>
+        <Route path='/chat' element={<ChatPage />} />
+        <Route path='/email-content' element={<EmailContentPage />} />
+        <Route path='*' element={<Navigate to='chat' replace />} />
+      </Route>
+      <Route path='/sign-in' element={<SignInPage />} />
+      <Route path='*' element={<Navigate to='/sign-in' replace />} />
+    </Route>
+  )
+);
+
 const App = () => {
-  return (
-    <Layout>
-      <AppRouter />
-    </Layout>
-  );
+  useFirebaseAuth();
+
+  return <RouterProvider router={router} />;
 };
 
 export default App;
