@@ -8,6 +8,7 @@ import GoogleIcon from '@icon/GoogleIcon';
 import useFirebaseStore from '@store/firebase-store';
 import { AuthenticationProvider } from '@type/auth';
 import { signInWithGoogleProvider } from '@utils/firebase';
+import { ROUTES } from '@constants/route';
 
 const SignInPage = () => {
   const [signingIn, setSigningIn] = useState(false);
@@ -18,7 +19,7 @@ const SignInPage = () => {
   const user = useFirebaseStore((state) => state.user);
 
   if (user) {
-    return <Navigate to='/chat' replace />;
+    return <Navigate to={ROUTES.supportAssistant} replace />;
   }
 
   const handleChange = (authenticationProvider: AuthenticationProvider) => {
@@ -47,11 +48,7 @@ const SignInPage = () => {
 
   return (
     <div className='overflow-hidden w-full h-full relative flex justify-center items-center'>
-      <div className='w-2/5'>
-        <AuthenticationProviderSelect
-          value={authenticationProvider}
-          onChange={handleChange}
-        />
+      <div className='w-[200px]'>
         <button
           disabled={signingIn}
           onClick={() => handleLogin()}
@@ -60,7 +57,7 @@ const SignInPage = () => {
           }`}
         >
           <GoogleIcon />
-          <span className='ml-2'>Sign in</span>
+          <span className='ml-2'>Sign in with Google</span>
         </button>
       </div>
     </div>

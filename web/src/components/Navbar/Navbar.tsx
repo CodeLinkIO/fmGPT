@@ -1,5 +1,5 @@
-import { useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { createJSONStorage } from 'zustand/middleware';
 
 import useClickOutside from '@hooks/useClickOuside';
@@ -9,9 +9,12 @@ import UpChevronArrow from '@icon/UpChevronArrow';
 import useFirebaseStore from '@store/firebase-store';
 import useStore from '@store/store';
 import { signOut } from '@utils/firebase';
+import { ROUTES } from '@constants/route';
 
 const Navbar = () => {
+  const location = useLocation();
   const ref = useRef<HTMLDivElement>(null);
+  const [activeRoute, setActiveRoute] = useState(ROUTES.supportAssistant);
   const [showUserMenu, setShowUserMenu] = useState(false);
   useClickOutside(ref, () => setShowUserMenu(false));
   const user = useFirebaseStore((state) => state.user);
@@ -32,6 +35,10 @@ const Navbar = () => {
     });
     useStore.persist.rehydrate();
   };
+
+  useEffect(() => {
+    setActiveRoute(location.pathname);
+  }, [location]);
 
   const renderUserMenu = () => {
     return (
@@ -57,12 +64,20 @@ const Navbar = () => {
       {user && (
         <>
           <div className='flex-1 flex justify-center items-center gap-x-4'>
-            <Link to='chat' className='text-white'>
-              Chat
-            </Link>
-            <Link to='email-content' className='text-white'>
-              Email content
-            </Link>
+            {[
+              { label: 'Support Assistant', value: ROUTES.supportAssistant },
+              { label: 'Chat', value: ROUTES.chat },
+            ].map((route) => (
+              <Link
+                key={route.value}
+                to={route.value}
+                className={`text-white ${
+                  route.value === activeRoute && 'underline underline-offset-8'
+                }`}
+              >
+                {route.label}
+              </Link>
+            ))}
           </div>
           <div
             ref={ref}

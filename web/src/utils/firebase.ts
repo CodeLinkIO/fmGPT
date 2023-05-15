@@ -48,7 +48,11 @@ const GOOGLE_PROVIDERS = {
 
 const signInWithGoogleProvider = async (
   authenticationProvider: AuthenticationProvider
-) => await signInWithPopup(auth, GOOGLE_PROVIDERS[authenticationProvider]);
+) => await signInWithPopup(auth, googleProvider);
+
+// const signInWithGoogleProvider = async (
+//   authenticationProvider: AuthenticationProvider
+// ) => await signInWithPopup(auth, GOOGLE_PROVIDERS[authenticationProvider]);
 
 const signOut = async () => await signOutWithFirebase(auth);
 
