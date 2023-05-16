@@ -5,7 +5,7 @@ interface ImportMetaEnv {
   readonly VITE_GOOGLE_CLIENT_ID: string;
   readonly VITE_HOSTED_DOMAIN: string;
   readonly VITE_BASE_URL: string;
-  readonly VITE_FASTIFY_BASE_URL: string;
+  readonly VITE_FASTAPI_BASE_URL: string;
   readonly VITE_FIREBASE_API_KEY: string;
   readonly VITE_FIREBASE_APP_ID: string;
   readonly VITE_FIREBASE_AUTH_DOMAIN: string;
