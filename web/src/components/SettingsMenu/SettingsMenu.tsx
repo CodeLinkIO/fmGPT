@@ -21,7 +21,6 @@ const SettingsMenu = () => {
   const setUser = useFirebaseStore((state) => state.setUser);
   const setSyncStatus = useFirebaseStore((state) => state.setSyncStatus);
 
-  const theme = useStore.getState().theme;
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const handleClickSignOut = () => {
@@ -35,9 +34,6 @@ const SettingsMenu = () => {
     useStore.persist.rehydrate();
   };
 
-  useEffect(() => {
-    document.documentElement.className = theme;
-  }, [theme]);
   return (
     <>
       <a

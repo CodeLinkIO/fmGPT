@@ -1,50 +1,17 @@
 import { useEffect } from 'react';
 
 import useStore from '@store/store';
-import i18n from '../../i18n';
 import Chat from '@components/Chat';
 import Menu from '@components/Menu';
 import useInitialiseNewChat from '@hooks/useInitialiseNewChat';
-import useFirebaseStore from '@store/firebase-store';
-import createFirestoreStorage from '@store/storage/firestore-storage';
 import { ChatInterface } from '@type/chat';
 import { Theme } from '@type/theme';
-import { isUserExisting } from '@api/firestore-api';
 
 const ChatPage = () => {
   const initialiseNewChat = useInitialiseNewChat();
   const setChats = useStore((state) => state.setChats);
   const setTheme = useStore((state) => state.setTheme);
   const setCurrentChatIndex = useStore((state) => state.setCurrentChatIndex);
-  const user = useFirebaseStore((state) => state.user);
-
-  const initializeState = async () => {
-    if (!user) {
-      return;
-    }
-
-    if (await isUserExisting(user.uid)) {
-      return;
-    }
-
-    useStore.persist.setOptions({
-      storage: createFirestoreStorage(),
-    });
-    useStore.persist.rehydrate();
-  };
-
-  useEffect(() => {
-    if (user) {
-      initializeState();
-    }
-  }, [user]);
-
-  useEffect(() => {
-    document.documentElement.lang = i18n.language;
-    i18n.on('languageChanged', (lng) => {
-      document.documentElement.lang = lng;
-    });
-  }, []);
 
   useEffect(() => {
     // legacy local storage

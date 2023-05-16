@@ -1,47 +1,12 @@
-import { useEffect } from 'react';
-
-import { createUserChats, isUserExisting } from '@api/firestore-api';
 import DatabaseIcon from '@icon/DatabaseIcon';
 import RefreshIcon from '@icon/RefreshIcon';
 import TickIcon from '@icon/TickIcon';
 import useFirebaseStore from '@store/firebase-store';
-import createFirestoreStorage from '@store/storage/firestore-storage';
-import useStore, { createPartializedState } from '@store/store';
 import { SyncStatus } from '@type/google-api';
 
 const FirestoreSync = () => {
-  const user = useFirebaseStore((state) => state.user);
   const sync = useFirebaseStore((state) => state.sync);
   const syncStatus = useFirebaseStore((state) => state.syncStatus);
-  const setSyncStatus = useFirebaseStore((state) => state.setSyncStatus);
-
-  const initialiseState = async () => {
-    if (!user) {
-      setSyncStatus('unauthenticated');
-      return;
-    }
-
-    try {
-      const hasUser = await isUserExisting(user.uid);
-      const partializedState = createPartializedState(useStore.getState());
-      if (!hasUser) {
-        await createUserChats(user.uid, partializedState);
-      }
-      useStore.persist.setOptions({
-        storage: createFirestoreStorage(),
-      });
-      useStore.persist.rehydrate();
-    } catch (error) {
-      console.log({ error });
-    }
-  };
-
-  useEffect(() => {
-    if (user) {
-      setSyncStatus('syncing');
-      initialiseState();
-    }
-  }, [user]);
 
   return (
     <>
