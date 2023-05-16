@@ -1,37 +1,41 @@
-import { useRef, useState } from 'react';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import remarkMath from 'remark-math';
-import rehypeKatex from 'rehype-katex';
-import rehypeHighlight from 'rehype-highlight';
-
+import { code, p } from '@components/Chat/ChatContent/Message/MessageContent';
 import BulletedTextInput from '@components/Inputs/BulletedTextInput';
 import CustomerMoodSelect from '@components/Selects/CustomerMoodSelect';
-import CopyIcon from '@icon/CopyIcon';
-import useStore from '@store/store';
 import {
   END_STREAM_VALUE_POSTFIX,
   LINE_TEXT_BULLET,
   STREAM_VALUE_PREFIX_REGEX,
 } from '@constants/character';
+import { codeLanguageSubset } from '@constants/chat';
+import CopyIcon from '@icon/CopyIcon';
+import useFirebaseStore from '@store/firebase-store';
+import useStore from '@store/store';
+import {
+  EmailContentSubmitBodyInterface,
+  SlackLogMessageSubmitBodyInterface,
+} from '@type/api';
 import { CustomerMood } from '@type/prompt';
 import {
   getChatOutlinePromptWithFacts,
   getCustomerPromptByMood,
 } from '@utils/prompt';
-import { codeLanguageSubset } from '@constants/chat';
-import { code, p } from '@components/Chat/ChatContent/Message/MessageContent';
-import { StreamResponse } from '@type/api';
+import { useRef, useState } from 'react';
+import ReactMarkdown from 'react-markdown';
+import rehypeHighlight from 'rehype-highlight';
+import rehypeKatex from 'rehype-katex';
+import remarkGfm from 'remark-gfm';
+import remarkMath from 'remark-math';
 
 const EmailContentPage = () => {
   const dummyRef = useRef<HTMLDivElement>(null);
-  const [content, setContent] = useState(``);
+  const [content, setContent] = useState('');
   const [prompt, setPrompt] = useState('');
   const [generating, setGenerating] = useState(false);
   const [customerMood, setCustomerMood] = useState(CustomerMood.Neutral);
   const setToastMessage = useStore((state) => state.setToastMessage);
   const setToastShow = useStore((state) => state.setToastShow);
   const setToastStatus = useStore((state) => state.setToastStatus);
+  const user = useFirebaseStore((state) => state.user);
 
   const scrollToEmailContent = () => {
     if (!dummyRef || !dummyRef.current) {
@@ -50,14 +54,14 @@ const EmailContentPage = () => {
     setContent('');
     try {
       setGenerating(true);
-      const data: { user: string; system: string } = {
-        system: getCustomerPromptByMood(customerMood),
-        user: getChatOutlinePromptWithFacts(
+      const data: EmailContentSubmitBodyInterface = {
+        system_content: getCustomerPromptByMood(customerMood),
+        user_content: getChatOutlinePromptWithFacts(
           prompt.replace(LINE_TEXT_BULLET, '')
         ),
       };
       const response = await fetch(
-        `${import.meta.env.VITE_FASTIFY_BASE_URL}/openai`,
+        `${import.meta.env.VITE_FASTAPI_BASE_URL}/simplequery/email`,
         {
           method: 'POST',
           body: JSON.stringify(data),
@@ -79,26 +83,44 @@ const EmailContentPage = () => {
           break;
         }
 
-        const lines = decoder
-          .decode(value)
-          .split('\n')
-          .filter((line) => line.trim() !== '');
+        const lines = decoder.decode(value);
         for (const line of lines) {
           const text = line.replace(STREAM_VALUE_PREFIX_REGEX, '');
           if (text === END_STREAM_VALUE_POSTFIX) {
             break;
           }
 
-          const streamResponse = JSON.parse(text) as StreamResponse;
-          if (streamResponse.choices.length > 0) {
-            if (streamResponse.choices[0].delta['content']) {
-              const resultString = streamResponse.choices[0].delta.content;
-              textToCopy += resultString;
-              setContent((prevContent) => prevContent + resultString);
-              scrollToEmailContent();
-            }
-          }
+          const resultString = line;
+          textToCopy += resultString;
+          setContent((prevContent) => prevContent + resultString);
+          scrollToEmailContent();
         }
+      }
+
+      if (!user) {
+        return;
+      }
+
+      const slackLogMessageSubmitBody: SlackLogMessageSubmitBodyInterface = {
+        username: user.displayName || '',
+        mood: customerMood,
+        facts: prompt,
+        content: textToCopy,
+      };
+      const slackResponse = await fetch(
+        `${import.meta.env.VITE_FASTAPI_BASE_URL}/slack/message/send`,
+        {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(slackLogMessageSubmitBody),
+        }
+      );
+
+      if (!slackResponse.ok || !slackResponse.body) {
+        return;
       }
 
       await navigator.clipboard.writeText(textToCopy);
@@ -110,7 +132,6 @@ const EmailContentPage = () => {
     }
     setGenerating(false);
   };
-
   const handleCopy = async () => {
     await navigator.clipboard.writeText(content);
     setToastMessage('Email content copied to your clipboard.');

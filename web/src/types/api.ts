@@ -38,4 +38,16 @@ export interface StreamResponse {
     index: number;
     finish_reason: 'stop' | null;
   }[];
-};
+}
+
+export interface EmailContentSubmitBodyInterface {
+  user_content: string;
+  system_content: string;
+}
+
+export interface SlackLogMessageSubmitBodyInterface {
+  username: string;
+  mood: string;
+  facts: string;
+  content: string;
+}
