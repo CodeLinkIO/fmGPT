@@ -75,7 +75,7 @@ const Select = ({
             {options.map((option) => (
               <li
                 key={option.value}
-                className={`px-4 py-2 first:hover:rounded-t last:hover:rounded-b hover:bg-gray-200 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer ${
+                className={`px-4 py-2 first:rounded-t last:rounded-b first:hover:rounded-t last:hover:rounded-b hover:bg-gray-200 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer ${
                   isOptionSelected(option.value) &&
                   'bg-gray-100 dark:bg-gray-500'
                 }`}
