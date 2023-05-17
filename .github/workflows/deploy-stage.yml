@@ -3,6 +3,9 @@ on:
   push:
     branches:
       - dev
+env:
+  test_secret: ${{ secrets.TEST }}
+  test_value: ${{ vars.VITE_TEST }}
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -18,6 +21,6 @@ jobs:
       # - name: Install Firebase tools
       #   run: yarn global add firebase-tools
       - name: Print TEST secret
-        run: echo 'TEST secret ${{ secrets.TEST }}'
+        run: echo "$test_secret"
       - name: Print TEST variable
-        run: echo 'TEST variable ${{ vars.VITE_TEST }}'
+        run: echo "$test_value"
