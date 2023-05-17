@@ -2,7 +2,6 @@
 
 interface ImportMetaEnv {
   readonly VITE_DEBUG_MODE: string;
-  readonly VITE_GOOGLE_CLIENT_ID: string;
   readonly VITE_HOSTED_DOMAIN: string;
   readonly VITE_BASE_URL: string;
   readonly VITE_FASTAPI_BASE_URL: string;
