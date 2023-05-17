@@ -1,4 +1,4 @@
-name: Deploy staging version
+name: Deploy preview version for dev team
 on:
   push:
     branches:
@@ -27,7 +27,7 @@ jobs:
         run: |
           export GOOGLE_APPLICATION_CREDENTIALS=$HOME/gcloud.json
           firebase experiments:enable webframeworks
-          firebase deploy --only hosting:fmgpt-site
+          firebase hosting:channel:deploy codelink --only fmgpt-site
         env:
           VITE_DEBUG_MODE: ${{ vars.VITE_DEBUG_MODE }}
           VITE_HOSTED_DOMAIN: ${{ vars.VITE_HOSTED_DOMAIN }}
