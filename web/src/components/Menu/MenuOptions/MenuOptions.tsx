@@ -1,11 +1,10 @@
-import useStore from '@store/store';
-
-import ClearConversation from './ClearConversation';
-import CollapseOptions from './CollapseOptions';
+import FirestoreSync from '@components/FireStoreSync';
 import ImportExportChat from '@components/ImportExportChat';
 import SettingsMenu from '@components/SettingsMenu';
 import useFirebaseStore from '@store/firebase-store';
-import FirestoreSync from '@components/FirestoreSync';
+import useStore from '@store/store';
+import ClearConversation from './ClearConversation';
+import CollapseOptions from './CollapseOptions';
 
 const MenuOptions = () => {
   const hideMenuOptions = useStore((state) => state.hideMenuOptions);

@@ -1,1 +1,1 @@
-export { default } from './FirestoreSync'
+export { default } from './FirestoreSync';
