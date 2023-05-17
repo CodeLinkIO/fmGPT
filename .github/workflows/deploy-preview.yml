@@ -29,8 +29,8 @@ jobs:
           firebase experiments:enable webframeworks
           firebase hosting:channel:deploy codelink --only fmgpt-site
         env:
-          VITE_DEBUG_MODE: ${{ vars.VITE_DEBUG_MODE }}
-          VITE_HOSTED_DOMAIN: ${{ vars.VITE_HOSTED_DOMAIN }}
+          VITE_DEBUG_MODE: true
+          VITE_HOSTED_DOMAIN: codelink.io
           VITE_BASE_URL: ${{ vars.VITE_BASE_URL }}
           VITE_FASTAPI_BASE_URL: ${{ vars.VITE_FASTAPI_BASE_URL }}
           VITE_FIREBASE_API_KEY: ${{ vars.VITE_FIREBASE_API_KEY }}
