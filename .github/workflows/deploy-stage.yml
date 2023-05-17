@@ -4,8 +4,9 @@ on:
     branches:
       - dev
 jobs:
-  deploy:
+  deploy-fe:
     runs-on: ubuntu-latest
+    environment: dev
     steps:
       - name: Checkout project repository
         uses: actions/checkout@v3
@@ -21,21 +22,21 @@ jobs:
         run: |
           yarn global add firebase-tools
       - name: Create Service Account key
-        run: echo '${{ secrets.STAGE_GCP_KEY }}' > $HOME/gcloud.json
+        run: echo '${{ secrets.GCP_KEY }}' > $HOME/gcloud.json
       - name: Deploy Firebase
         run: |
           export GOOGLE_APPLICATION_CREDENTIALS=$HOME/gcloud.json
           firebase experiments:enable webframeworks
           firebase hosting:channel:deploy codelink --only fmgpt-site
         env:
-          VITE_DEBUG_MODE: ${{ vars.VITE_STAGE_DEBUG_MODE }}
-          VITE_HOSTED_DOMAIN: ${{ vars.VITE_STAGE_HOSTED_DOMAIN }}
-          VITE_BASE_URL: ${{ vars.VITE_STAGE_BASE_URL }}
-          VITE_FASTAPI_BASE_URL: ${{ vars.VITE_STAGE_FASTAPI_BASE_URL }}
-          VITE_FIREBASE_API_KEY: ${{ vars.VITE_STAGE_FIREBASE_API_KEY }}
-          VITE_FIREBASE_APP_ID: ${{ vars.VITE_STAGE_FIREBASE_APP_ID }}
-          VITE_FIREBASE_AUTH_DOMAIN: ${{ vars.VITE_STAGE_FIREBASE_AUTH_DOMAIN }}
-          VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ vars.VITE_STAGE_FIREBASE_MESSAGING_SENDER_ID }}
-          VITE_FIREBASE_PROJECT_ID: ${{ vars.VITE_STAGE_FIREBASE_PROJECT_ID }}
-          VITE_FIREBASE_STORAGE_BUCKET: ${{ vars.VITE_STAGE_FIREBASE_STORAGE_BUCKET }}
+          VITE_DEBUG_MODE: ${{ vars.VITE_DEBUG_MODE }}
+          VITE_HOSTED_DOMAIN: ${{ vars.VITE_HOSTED_DOMAIN }}
+          VITE_BASE_URL: ${{ vars.VITE_BASE_URL }}
+          VITE_FASTAPI_BASE_URL: ${{ vars.VITE_FASTAPI_BASE_URL }}
+          VITE_FIREBASE_API_KEY: ${{ vars.VITE_FIREBASE_API_KEY }}
+          VITE_FIREBASE_APP_ID: ${{ vars.VITE_FIREBASE_APP_ID }}
+          VITE_FIREBASE_AUTH_DOMAIN: ${{ vars.VITE_FIREBASE_AUTH_DOMAIN }}
+          VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ vars.VITE_FIREBASE_MESSAGING_SENDER_ID }}
+          VITE_FIREBASE_PROJECT_ID: ${{ vars.VITE_FIREBASE_PROJECT_ID }}
+          VITE_FIREBASE_STORAGE_BUCKET: ${{ vars.VITE_FIREBASE_STORAGE_BUCKET }}
         working-directory: web
