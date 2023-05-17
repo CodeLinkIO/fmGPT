@@ -1,0 +1,23 @@
+name: Deploy staging version
+on:
+  push:
+    branches:
+      - dev
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout project repository
+        uses: actions/checkout@v3
+      # - name: Set up Node
+      #   uses: actions@setup-node@v3
+      #   with:
+      #     node-version: 18
+      # - name: Install dependencies
+      #   run: yarn
+      # - name: Install Firebase tools
+      #   run: yarn global add firebase-tools
+      - name: Print TEST secret
+        run: echo 'TEST secret ${{ secrets.TEST }}'
+      - name: Print TEST variable
+        run: echo 'TEST variable ${{ vars.VITE_TEST }}'
